@@ -75,15 +75,32 @@ class GraphService:
 
     def connect(self) -> None:
         """Establish connection to FalkorDB Cloud deployment or explicitly fallback with clear status."""
-        falkordb_url = os.getenv("FALKORDB_URL")
-        host = os.getenv("FALKORDB_HOST", "localhost")
-        port_val = os.getenv("FALKORDB_PORT", "6379")
+        falkordb_url = (os.getenv("FALKORDB_URL") or "").strip() or None
+        raw_host = (os.getenv("FALKORDB_HOST", "localhost") or "localhost").strip()
+        port_val = (os.getenv("FALKORDB_PORT", "6379") or "6379").strip()
         try:
             port = int(port_val)
         except ValueError:
             port = 6379
-        username = os.getenv("FALKORDB_USERNAME")
-        password = os.getenv("FALKORDB_PASSWORD") or None
+        username = (os.getenv("FALKORDB_USERNAME") or "").strip() or None
+        password = (os.getenv("FALKORDB_PASSWORD") or "").strip() or None
+
+        # Resolve host if it's a domain and OS DNS lookup fails (common on cloud containers)
+        host = raw_host
+        if host and host != "localhost" and not host.replace(".", "").isdigit():
+            try:
+                import socket
+                socket.gethostbyname(host)
+            except Exception:
+                try:
+                    import httpx
+                    doh_res = httpx.get(f"https://dns.google/resolve?name={host}&type=A", timeout=3.0).json()
+                    answers = doh_res.get("Answer", [])
+                    if answers and answers[0].get("data"):
+                        host = answers[0]["data"]
+                        print(f"ℹ️ Resolved {raw_host} -> {host} via DNS fallback")
+                except Exception as doh_err:
+                    print(f"⚠️ DNS resolution fallback failed for {raw_host}: {doh_err}")
 
         url_is_tls = bool(falkordb_url and falkordb_url.startswith("falkors://"))
         ssl_val = (os.getenv("FALKORDB_SSL", "false").lower() in ("true", "1", "yes")) or url_is_tls
@@ -91,14 +108,14 @@ class GraphService:
         ssl_check_hostname = os.getenv("FALKORDB_SSL_CHECK_HOSTNAME", "true").lower() in ("true", "1", "yes")
         ssl_cert_reqs = os.getenv("FALKORDB_SSL_CERT_REQS", "required")
         ssl_ca_certs = os.getenv("FALKORDB_SSL_CA_CERTS") or None
-        graph_name = os.getenv("FALKORDB_GRAPH_NAME", "threatgraph")
+        graph_name = (os.getenv("FALKORDB_GRAPH_NAME", "threatgraph") or "threatgraph").strip()
 
         self._tls_required = require_tls
         self._tls_enabled = ssl_val
         self._ssl_check_hostname = ssl_check_hostname if ssl_val else False
         self._ssl_cert_reqs = ssl_cert_reqs if ssl_val else "none"
 
-        self._target_endpoint = falkordb_url or f"{host}:{port}"
+        self._target_endpoint = falkordb_url or f"{raw_host}:{port}"
         self._is_cloud = "cloud" in self._target_endpoint.lower() or port != 6379
 
         if FalkorDB:
