@@ -31,12 +31,14 @@ export function LandingHeader() {
         if (!mounted) return;
         setHealthData(data);
         const falkor = data?.services?.falkordb;
-        if (!falkor || falkor.status !== 'connected') {
+        if (!falkor) {
           setHealthStatus('unavailable');
-        } else if (falkor.mode === 'in_memory_fallback') {
+        } else if (falkor.status === 'connected') {
+          setHealthStatus('connected');
+        } else if (falkor.status === 'fallback' || falkor.mode === 'in_memory_fallback') {
           setHealthStatus('demo');
         } else {
-          setHealthStatus('connected');
+          setHealthStatus('unavailable');
         }
       })
       .catch(() => {
@@ -173,7 +175,7 @@ export function LandingHeader() {
                 {healthStatus === 'connected'
                   ? 'FalkorDB Cloud (Dev)'
                   : healthStatus === 'demo'
-                  ? 'In-Memory Fallback'
+                  ? 'Demo Active'
                   : healthStatus === 'connecting'
                   ? 'Connecting...'
                   : 'Unavailable'}
