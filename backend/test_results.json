@@ -65,7 +65,7 @@
     },
     "Start Investigation POST /api/investigations": {
       "status": "PASSED",
-      "detail": "Dispatched inv-alert-002-1792072291 for alert-002"
+      "detail": "Dispatched inv-alert-002-1792243248 for alert-002"
     },
     "Investigation Completion & Report Retrieval": {
       "status": "PASSED",
@@ -89,7 +89,7 @@
     },
     "Invalid Entity Type -> 400": {
       "status": "PASSED",
-      "detail": "Returned 400 with message: Invalid entity type. Must be one of: {'Device', 'Resource', 'Alert', 'User', 'Event', 'Incident', 'IPAddress'}"
+      "detail": "Returned 400 with message: Invalid entity type. Must be one of: {'IPAddress', 'Resource', 'Event', 'Alert', 'User', 'Device', 'Incident'}"
     },
     "Non-Existent Entity -> 404": {
       "status": "PASSED",
@@ -105,7 +105,7 @@
     },
     "Invalid Outcome Enum -> 400": {
       "status": "PASSED",
-      "detail": "Returned 400: Invalid outcome. Must be one of: {'containment', 'accepted', 'false_positive', 'further_investigation'}"
+      "detail": "Returned 400: Invalid outcome. Must be one of: {'containment', 'accepted', 'further_investigation', 'false_positive'}"
     },
     "Traversal Depth Boundary (>4) -> 422": {
       "status": "PASSED",

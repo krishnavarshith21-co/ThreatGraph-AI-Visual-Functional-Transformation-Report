@@ -18760,5 +18760,1505 @@
     "outcome_reason": "Host LAPTOP-MCHEN and SRV-ADMIN-01 isolated due to confirmed credential dumping and multi-hop exfiltration path.",
     "recommended_action_recorded": "Revoke admin-service credentials and initiate forensics.",
     "outcome_recorded_at": "2026-10-15T16:29:42.713096+00:00"
+  },
+  "inv-alert-002-1792243248": {
+    "id": "inv-alert-002-1792243248",
+    "alert_id": "alert-002",
+    "description": "Verification audit run for credential access on LAPTOP-MCHEN",
+    "status": "completed",
+    "created_at": "2026-10-17T13:20:48.868196+00:00",
+    "completed_at": "2026-10-17T13:20:49.100339+00:00",
+    "report": {
+      "investigation_id": "inv-alert-002-1792243249",
+      "alert_id": "alert-002",
+      "status": "completed",
+      "summary": "ThreatGraph AI investigation confirmed a multi-stage advanced persistent threat (APT) campaign. Begun via spear-phishing on user-001's endpoint (dev-001), attackers harvested elevated credentials to pivot laterally to SRV-ADMIN-01, exfiltrating 4.2 GB of confidential customer records to an external infrastructure node.",
+      "findings": [
+        "Alert 'Credential dump detected \u2014 LSASS access' was triggered by event evt-104 (Credential harvesting detected).",
+        "Initial compromise traced to endpoint dev-001 (LAPTOP-MCHEN) assigned to user-001 (Marcus Chen, Engineering).",
+        "Lateral movement detected: credential harvesting on LAPTOP-MCHEN compromised admin-service account.",
+        "Compromised admin credentials utilized to establish RDP connection from 10.0.1.45 to critical server SRV-ADMIN-01.",
+        "Unapproved bulk SQL query executed against Customer Database (res-001) accessing 15,000 records.",
+        "High-volume data exfiltration confirmed: 4.2 GB transmitted to external VPN endpoint 91.219.236.18.",
+        "Evidence of evasion: attempt to clear Windows Security Event Logs using wevtutil on SRV-ADMIN-01."
+      ],
+      "evidence": [
+        {
+          "source_tool": "get_alert_details",
+          "query_args": {
+            "alert_id": "alert-002"
+          },
+          "data": {
+            "id": "alert-002",
+            "title": "Credential dump detected \u2014 LSASS access",
+            "severity": "critical",
+            "status": "open",
+            "source_event_id": "evt-104",
+            "description": "EDR detected potential credential harvesting via LSASS memory access",
+            "timestamp": "2026-10-11T14:50:00Z",
+            "source": "synthetic_demo",
+            "_label": "Alert"
+          }
+        },
+        {
+          "source_tool": "get_event_details",
+          "query_args": {
+            "event_id": "evt-104"
+          },
+          "data": {
+            "id": "evt-104",
+            "title": "Credential harvesting detected",
+            "event_type": "credential_access",
+            "timestamp": "2026-10-11T14:08:00Z",
+            "description": "LSASS memory dump detected on LAPTOP-MCHEN. Credentials for marcus.chen and admin-service potentially compromised",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          }
+        },
+        {
+          "source_tool": "find_entity_neighbors",
+          "query_args": {
+            "entity_type": "Event",
+            "entity_id": "evt-104"
+          },
+          "data": {
+            "source": {
+              "id": "evt-104",
+              "title": "Credential harvesting detected",
+              "event_type": "credential_access",
+              "timestamp": "2026-10-11T14:08:00Z",
+              "description": "LSASS memory dump detected on LAPTOP-MCHEN. Credentials for marcus.chen and admin-service potentially compromised",
+              "source": "synthetic_demo",
+              "severity": "high",
+              "_label": "Event"
+            },
+            "neighbors": [
+              {
+                "id": "user-001",
+                "name": "Marcus Chen",
+                "email": "marcus.chen@acme-corp.com",
+                "department": "Engineering",
+                "role": "senior_engineer",
+                "status": "active",
+                "created_at": "2026-10-04T14:00:00Z",
+                "_label": "User"
+              },
+              {
+                "id": "dev-001",
+                "hostname": "LAPTOP-MCHEN",
+                "device_type": "laptop",
+                "os": "Windows 11",
+                "location": "Engineering Lab",
+                "status": "online",
+                "_label": "Device"
+              },
+              {
+                "id": "alert-002",
+                "title": "Credential dump detected \u2014 LSASS access",
+                "severity": "critical",
+                "status": "open",
+                "source_event_id": "evt-104",
+                "description": "EDR detected potential credential harvesting via LSASS memory access",
+                "timestamp": "2026-10-11T14:50:00Z",
+                "source": "synthetic_demo",
+                "_label": "Alert"
+              }
+            ],
+            "relationships": [
+              {
+                "type": "PERFORMED",
+                "properties": {
+                  "created_at": "2026-10-11T14:00:00Z",
+                  "source": "synthetic_demo"
+                },
+                "target": "user-001"
+              },
+              {
+                "type": "OCCURRED_ON",
+                "properties": {
+                  "created_at": "2026-10-11T14:00:00Z",
+                  "source": "synthetic_demo"
+                },
+                "target": "dev-001"
+              },
+              {
+                "type": "TRIGGERED_BY",
+                "properties": {
+                  "created_at": "2026-10-11T14:00:00Z",
+                  "source": "synthetic_demo"
+                },
+                "target": "alert-002"
+              }
+            ]
+          }
+        },
+        {
+          "source_tool": "traverse_attack_path",
+          "query_args": {
+            "entity_type": "Device",
+            "entity_id": "dev-001",
+            "max_depth": 3
+          },
+          "data": {
+            "nodes": [
+              {
+                "id": "dev-001",
+                "hostname": "LAPTOP-MCHEN",
+                "device_type": "laptop",
+                "os": "Windows 11",
+                "location": "Engineering Lab",
+                "status": "online",
+                "_label": "Device"
+              },
+              {
+                "id": "ip-001",
+                "address": "10.0.1.45",
+                "type": "internal",
+                "description": "Engineering VLAN",
+                "_label": "IPAddress"
+              },
+              {
+                "id": "evt-105",
+                "title": "Unusual authentication",
+                "event_type": "authentication",
+                "timestamp": "2026-10-11T14:15:00Z",
+                "description": "admin-service account authenticated from 10.0.1.45 (Engineering VLAN) instead of usual 10.0.0.10 (Server VLAN)",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "alert-003",
+                "title": "Unusual admin authentication pattern",
+                "severity": "high",
+                "status": "open",
+                "source_event_id": "evt-105",
+                "description": "Admin account authenticated from unexpected network segment",
+                "timestamp": "2026-10-11T14:50:00Z",
+                "source": "synthetic_demo",
+                "_label": "Alert"
+              },
+              {
+                "id": "inc-001",
+                "title": "Suspected APT \u2014 Credential Theft and Data Exfiltration",
+                "status": "open",
+                "priority": "critical",
+                "description": "Multiple correlated alerts suggesting advanced persistent threat activity including credential theft, lateral movement, and potential data exfiltration",
+                "created_at": "2026-10-11T14:55:00Z",
+                "source": "synthetic_demo",
+                "_label": "Incident"
+              },
+              {
+                "id": "user-003",
+                "name": "admin-service",
+                "email": "admin@acme-corp.com",
+                "department": "IT",
+                "role": "system_admin",
+                "status": "active",
+                "created_at": "2026-10-04T14:00:00Z",
+                "_label": "User"
+              },
+              {
+                "id": "evt-301",
+                "title": "admin-service scheduled task",
+                "event_type": "automation",
+                "timestamp": "2026-10-11T14:34:00Z",
+                "description": "admin-service ran scheduled database maintenance task \u2014 this is a legitimate scheduled operation that could explain some of the database access patterns",
+                "source": "synthetic_demo",
+                "severity": "info",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-110",
+                "title": "Log deletion attempt",
+                "event_type": "log_tampering",
+                "timestamp": "2026-10-11T14:45:00Z",
+                "description": "Attempt to clear Windows Event Logs on SRV-ADMIN-01 using wevtutil.exe",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-109",
+                "title": "Large file transfer",
+                "event_type": "data_exfiltration",
+                "timestamp": "2026-10-11T14:40:00Z",
+                "description": "4.2 GB file transfer to 91.219.236.18 via encrypted channel from SRV-ADMIN-01",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-108",
+                "title": "Database query \u2014 bulk export",
+                "event_type": "data_access",
+                "timestamp": "2026-10-11T14:35:00Z",
+                "description": "Bulk SELECT query on Customer Database from SRV-ADMIN-01. 15,000 records accessed.",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-107",
+                "title": "Privilege escalation attempt",
+                "event_type": "privilege_escalation",
+                "timestamp": "2026-10-11T14:25:00Z",
+                "description": "admin-service attempted to add account to Domain Admins group from unusual source",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-106",
+                "title": "Lateral movement \u2014 RDP",
+                "event_type": "remote_access",
+                "timestamp": "2026-10-11T14:20:00Z",
+                "description": "RDP session from LAPTOP-MCHEN to SRV-ADMIN-01 using admin-service credentials",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "dev-003",
+                "hostname": "SRV-ADMIN-01",
+                "device_type": "server",
+                "os": "Ubuntu 22.04",
+                "location": "Data Center A",
+                "status": "online",
+                "_label": "Device"
+              },
+              {
+                "id": "evt-104",
+                "title": "Credential harvesting detected",
+                "event_type": "credential_access",
+                "timestamp": "2026-10-11T14:08:00Z",
+                "description": "LSASS memory dump detected on LAPTOP-MCHEN. Credentials for marcus.chen and admin-service potentially compromised",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "alert-002",
+                "title": "Credential dump detected \u2014 LSASS access",
+                "severity": "critical",
+                "status": "open",
+                "source_event_id": "evt-104",
+                "description": "EDR detected potential credential harvesting via LSASS memory access",
+                "timestamp": "2026-10-11T14:50:00Z",
+                "source": "synthetic_demo",
+                "_label": "Alert"
+              },
+              {
+                "id": "user-001",
+                "name": "Marcus Chen",
+                "email": "marcus.chen@acme-corp.com",
+                "department": "Engineering",
+                "role": "senior_engineer",
+                "status": "active",
+                "created_at": "2026-10-04T14:00:00Z",
+                "_label": "User"
+              },
+              {
+                "id": "evt-103",
+                "title": "Outbound C2 connection",
+                "event_type": "network_connection",
+                "timestamp": "2026-10-11T14:05:00Z",
+                "description": "Outbound HTTPS connection to 185.220.101.42:443 established from LAPTOP-MCHEN",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-102",
+                "title": "Malicious attachment opened",
+                "event_type": "file_execution",
+                "timestamp": "2026-10-11T14:03:00Z",
+                "description": "User opened PDF attachment which executed embedded macro. File hash: 4a3b2c1d...",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-101",
+                "title": "Phishing email received",
+                "event_type": "email_received",
+                "timestamp": "2026-10-11T14:00:00Z",
+                "description": "Spear-phishing email with malicious attachment received by marcus.chen@acme-corp.com from external sender spoofing HR department",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "ip-005",
+                "address": "185.220.101.42",
+                "type": "external",
+                "description": "TOR Exit Node \u2014 known malicious",
+                "_label": "IPAddress"
+              }
+            ],
+            "edges": [
+              {
+                "source": "dev-001",
+                "target": "ip-001",
+                "type": "HAS_IP",
+                "key": "dev-001-HAS_IP-ip-001"
+              },
+              {
+                "source": "evt-105",
+                "target": "dev-001",
+                "type": "OCCURRED_ON",
+                "key": "evt-105-OCCURRED_ON-dev-001"
+              },
+              {
+                "source": "alert-003",
+                "target": "evt-105",
+                "type": "TRIGGERED_BY",
+                "key": "alert-003-TRIGGERED_BY-evt-105"
+              },
+              {
+                "source": "inc-001",
+                "target": "alert-003",
+                "type": "INCLUDES",
+                "key": "inc-001-INCLUDES-alert-003"
+              },
+              {
+                "source": "user-003",
+                "target": "evt-105",
+                "type": "PERFORMED",
+                "key": "user-003-PERFORMED-evt-105"
+              },
+              {
+                "source": "user-003",
+                "target": "evt-301",
+                "type": "PERFORMED",
+                "key": "user-003-PERFORMED-evt-301"
+              },
+              {
+                "source": "user-003",
+                "target": "evt-110",
+                "type": "PERFORMED",
+                "key": "user-003-PERFORMED-evt-110"
+              },
+              {
+                "source": "user-003",
+                "target": "evt-109",
+                "type": "PERFORMED",
+                "key": "user-003-PERFORMED-evt-109"
+              },
+              {
+                "source": "user-003",
+                "target": "evt-108",
+                "type": "PERFORMED",
+                "key": "user-003-PERFORMED-evt-108"
+              },
+              {
+                "source": "user-003",
+                "target": "evt-107",
+                "type": "PERFORMED",
+                "key": "user-003-PERFORMED-evt-107"
+              },
+              {
+                "source": "user-003",
+                "target": "evt-106",
+                "type": "PERFORMED",
+                "key": "user-003-PERFORMED-evt-106"
+              },
+              {
+                "source": "user-003",
+                "target": "dev-003",
+                "type": "USES_DEVICE",
+                "key": "user-003-USES_DEVICE-dev-003"
+              },
+              {
+                "source": "evt-104",
+                "target": "dev-001",
+                "type": "OCCURRED_ON",
+                "key": "evt-104-OCCURRED_ON-dev-001"
+              },
+              {
+                "source": "alert-002",
+                "target": "evt-104",
+                "type": "TRIGGERED_BY",
+                "key": "alert-002-TRIGGERED_BY-evt-104"
+              },
+              {
+                "source": "inc-001",
+                "target": "alert-002",
+                "type": "INCLUDES",
+                "key": "inc-001-INCLUDES-alert-002"
+              },
+              {
+                "source": "user-001",
+                "target": "evt-104",
+                "type": "PERFORMED",
+                "key": "user-001-PERFORMED-evt-104"
+              },
+              {
+                "source": "user-001",
+                "target": "evt-103",
+                "type": "PERFORMED",
+                "key": "user-001-PERFORMED-evt-103"
+              },
+              {
+                "source": "user-001",
+                "target": "evt-102",
+                "type": "PERFORMED",
+                "key": "user-001-PERFORMED-evt-102"
+              },
+              {
+                "source": "user-001",
+                "target": "evt-101",
+                "type": "PERFORMED",
+                "key": "user-001-PERFORMED-evt-101"
+              },
+              {
+                "source": "user-001",
+                "target": "dev-001",
+                "type": "USES_DEVICE",
+                "key": "user-001-USES_DEVICE-dev-001"
+              },
+              {
+                "source": "evt-103",
+                "target": "dev-001",
+                "type": "OCCURRED_ON",
+                "key": "evt-103-OCCURRED_ON-dev-001"
+              },
+              {
+                "source": "evt-103",
+                "target": "ip-005",
+                "type": "CONNECTED_TO",
+                "key": "evt-103-CONNECTED_TO-ip-005"
+              }
+            ],
+            "depth": 3
+          }
+        },
+        {
+          "source_tool": "get_event_timeline",
+          "query_args": {
+            "entity_type": "User",
+            "entity_id": "user-001"
+          },
+          "data": {
+            "events": [
+              {
+                "id": "evt-101",
+                "title": "Phishing email received",
+                "event_type": "email_received",
+                "timestamp": "2026-10-11T14:00:00Z",
+                "description": "Spear-phishing email with malicious attachment received by marcus.chen@acme-corp.com from external sender spoofing HR department",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-102",
+                "title": "Malicious attachment opened",
+                "event_type": "file_execution",
+                "timestamp": "2026-10-11T14:03:00Z",
+                "description": "User opened PDF attachment which executed embedded macro. File hash: 4a3b2c1d...",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-103",
+                "title": "Outbound C2 connection",
+                "event_type": "network_connection",
+                "timestamp": "2026-10-11T14:05:00Z",
+                "description": "Outbound HTTPS connection to 185.220.101.42:443 established from LAPTOP-MCHEN",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-104",
+                "title": "Credential harvesting detected",
+                "event_type": "credential_access",
+                "timestamp": "2026-10-11T14:08:00Z",
+                "description": "LSASS memory dump detected on LAPTOP-MCHEN. Credentials for marcus.chen and admin-service potentially compromised",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              },
+              {
+                "id": "evt-105",
+                "title": "Unusual authentication",
+                "event_type": "authentication",
+                "timestamp": "2026-10-11T14:15:00Z",
+                "description": "admin-service account authenticated from 10.0.1.45 (Engineering VLAN) instead of usual 10.0.0.10 (Server VLAN)",
+                "source": "synthetic_demo",
+                "severity": "high",
+                "_label": "Event"
+              }
+            ],
+            "count": 5
+          }
+        },
+        {
+          "source_tool": "find_shared_indicators",
+          "query_args": {
+            "entity_type": "Device",
+            "entity_id": "dev-003"
+          },
+          "data": {
+            "source_id": "dev-003",
+            "shared_indicators": [
+              {
+                "shared_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                },
+                "relationship_to_source": "USES_DEVICE",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "evt-105",
+                  "title": "Unusual authentication",
+                  "event_type": "authentication",
+                  "timestamp": "2026-10-11T14:15:00Z",
+                  "description": "admin-service account authenticated from 10.0.1.45 (Engineering VLAN) instead of usual 10.0.0.10 (Server VLAN)",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                },
+                "relationship_to_source": "USES_DEVICE",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "evt-106",
+                  "title": "Lateral movement \u2014 RDP",
+                  "event_type": "remote_access",
+                  "timestamp": "2026-10-11T14:20:00Z",
+                  "description": "RDP session from LAPTOP-MCHEN to SRV-ADMIN-01 using admin-service credentials",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                },
+                "relationship_to_source": "USES_DEVICE",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "evt-107",
+                  "title": "Privilege escalation attempt",
+                  "event_type": "privilege_escalation",
+                  "timestamp": "2026-10-11T14:25:00Z",
+                  "description": "admin-service attempted to add account to Domain Admins group from unusual source",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                },
+                "relationship_to_source": "USES_DEVICE",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "evt-108",
+                  "title": "Database query \u2014 bulk export",
+                  "event_type": "data_access",
+                  "timestamp": "2026-10-11T14:35:00Z",
+                  "description": "Bulk SELECT query on Customer Database from SRV-ADMIN-01. 15,000 records accessed.",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                },
+                "relationship_to_source": "USES_DEVICE",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "evt-109",
+                  "title": "Large file transfer",
+                  "event_type": "data_exfiltration",
+                  "timestamp": "2026-10-11T14:40:00Z",
+                  "description": "4.2 GB file transfer to 91.219.236.18 via encrypted channel from SRV-ADMIN-01",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                },
+                "relationship_to_source": "USES_DEVICE",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "evt-110",
+                  "title": "Log deletion attempt",
+                  "event_type": "log_tampering",
+                  "timestamp": "2026-10-11T14:45:00Z",
+                  "description": "Attempt to clear Windows Event Logs on SRV-ADMIN-01 using wevtutil.exe",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                },
+                "relationship_to_source": "USES_DEVICE",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "evt-301",
+                  "title": "admin-service scheduled task",
+                  "event_type": "automation",
+                  "timestamp": "2026-10-11T14:34:00Z",
+                  "description": "admin-service ran scheduled database maintenance task \u2014 this is a legitimate scheduled operation that could explain some of the database access patterns",
+                  "source": "synthetic_demo",
+                  "severity": "info",
+                  "_label": "Event"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-106",
+                  "title": "Lateral movement \u2014 RDP",
+                  "event_type": "remote_access",
+                  "timestamp": "2026-10-11T14:20:00Z",
+                  "description": "RDP session from LAPTOP-MCHEN to SRV-ADMIN-01 using admin-service credentials",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-107",
+                  "title": "Privilege escalation attempt",
+                  "event_type": "privilege_escalation",
+                  "timestamp": "2026-10-11T14:25:00Z",
+                  "description": "admin-service attempted to add account to Domain Admins group from unusual source",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-107",
+                  "title": "Privilege escalation attempt",
+                  "event_type": "privilege_escalation",
+                  "timestamp": "2026-10-11T14:25:00Z",
+                  "description": "admin-service attempted to add account to Domain Admins group from unusual source",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "ACCESSED",
+                "connected_entity": {
+                  "id": "res-006",
+                  "name": "API Keys Vault",
+                  "resource_type": "secret_store",
+                  "sensitivity": "critical",
+                  "description": "Production API keys and secrets",
+                  "_label": "Resource"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-108",
+                  "title": "Database query \u2014 bulk export",
+                  "event_type": "data_access",
+                  "timestamp": "2026-10-11T14:35:00Z",
+                  "description": "Bulk SELECT query on Customer Database from SRV-ADMIN-01. 15,000 records accessed.",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-108",
+                  "title": "Database query \u2014 bulk export",
+                  "event_type": "data_access",
+                  "timestamp": "2026-10-11T14:35:00Z",
+                  "description": "Bulk SELECT query on Customer Database from SRV-ADMIN-01. 15,000 records accessed.",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "ACCESSED",
+                "connected_entity": {
+                  "id": "res-001",
+                  "name": "Customer Database",
+                  "resource_type": "database",
+                  "sensitivity": "critical",
+                  "description": "Production customer records",
+                  "_label": "Resource"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-108",
+                  "title": "Database query \u2014 bulk export",
+                  "event_type": "data_access",
+                  "timestamp": "2026-10-11T14:35:00Z",
+                  "description": "Bulk SELECT query on Customer Database from SRV-ADMIN-01. 15,000 records accessed.",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "TRIGGERED_BY",
+                "connected_entity": {
+                  "id": "alert-004",
+                  "title": "Bulk database export detected",
+                  "severity": "high",
+                  "status": "open",
+                  "source_event_id": "evt-108",
+                  "description": "DLP system flagged bulk export of customer records",
+                  "timestamp": "2026-10-11T14:50:00Z",
+                  "source": "synthetic_demo",
+                  "_label": "Alert"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-109",
+                  "title": "Large file transfer",
+                  "event_type": "data_exfiltration",
+                  "timestamp": "2026-10-11T14:40:00Z",
+                  "description": "4.2 GB file transfer to 91.219.236.18 via encrypted channel from SRV-ADMIN-01",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-109",
+                  "title": "Large file transfer",
+                  "event_type": "data_exfiltration",
+                  "timestamp": "2026-10-11T14:40:00Z",
+                  "description": "4.2 GB file transfer to 91.219.236.18 via encrypted channel from SRV-ADMIN-01",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "CONNECTED_TO",
+                "connected_entity": {
+                  "id": "ip-006",
+                  "address": "91.219.236.18",
+                  "type": "external",
+                  "description": "Suspicious VPN endpoint",
+                  "_label": "IPAddress"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-109",
+                  "title": "Large file transfer",
+                  "event_type": "data_exfiltration",
+                  "timestamp": "2026-10-11T14:40:00Z",
+                  "description": "4.2 GB file transfer to 91.219.236.18 via encrypted channel from SRV-ADMIN-01",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "TRIGGERED_BY",
+                "connected_entity": {
+                  "id": "alert-005",
+                  "title": "Large encrypted file transfer to external IP",
+                  "severity": "critical",
+                  "status": "open",
+                  "source_event_id": "evt-109",
+                  "description": "Network monitoring detected 4.2GB transfer to suspicious external IP",
+                  "timestamp": "2026-10-11T14:50:00Z",
+                  "source": "synthetic_demo",
+                  "_label": "Alert"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-110",
+                  "title": "Log deletion attempt",
+                  "event_type": "log_tampering",
+                  "timestamp": "2026-10-11T14:45:00Z",
+                  "description": "Attempt to clear Windows Event Logs on SRV-ADMIN-01 using wevtutil.exe",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-110",
+                  "title": "Log deletion attempt",
+                  "event_type": "log_tampering",
+                  "timestamp": "2026-10-11T14:45:00Z",
+                  "description": "Attempt to clear Windows Event Logs on SRV-ADMIN-01 using wevtutil.exe",
+                  "source": "synthetic_demo",
+                  "severity": "high",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "TRIGGERED_BY",
+                "connected_entity": {
+                  "id": "alert-006",
+                  "title": "Log tampering attempt detected",
+                  "severity": "high",
+                  "status": "open",
+                  "source_event_id": "evt-110",
+                  "description": "SIEM detected attempt to clear audit logs",
+                  "timestamp": "2026-10-11T14:50:00Z",
+                  "source": "synthetic_demo",
+                  "_label": "Alert"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-301",
+                  "title": "admin-service scheduled task",
+                  "event_type": "automation",
+                  "timestamp": "2026-10-11T14:34:00Z",
+                  "description": "admin-service ran scheduled database maintenance task \u2014 this is a legitimate scheduled operation that could explain some of the database access patterns",
+                  "source": "synthetic_demo",
+                  "severity": "info",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "PERFORMED",
+                "connected_entity": {
+                  "id": "user-003",
+                  "name": "admin-service",
+                  "email": "admin@acme-corp.com",
+                  "department": "IT",
+                  "role": "system_admin",
+                  "status": "active",
+                  "created_at": "2026-10-04T14:00:00Z",
+                  "_label": "User"
+                }
+              },
+              {
+                "shared_entity": {
+                  "id": "evt-301",
+                  "title": "admin-service scheduled task",
+                  "event_type": "automation",
+                  "timestamp": "2026-10-11T14:34:00Z",
+                  "description": "admin-service ran scheduled database maintenance task \u2014 this is a legitimate scheduled operation that could explain some of the database access patterns",
+                  "source": "synthetic_demo",
+                  "severity": "info",
+                  "_label": "Event"
+                },
+                "relationship_to_source": "OCCURRED_ON",
+                "relationship_to_other": "ACCESSED",
+                "connected_entity": {
+                  "id": "res-001",
+                  "name": "Customer Database",
+                  "resource_type": "database",
+                  "sensitivity": "critical",
+                  "description": "Production customer records",
+                  "_label": "Resource"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "contradictions": [
+        "Event evt-301 indicates admin-service ran an automated maintenance task on Customer Database at roughly the same timeframe, which explains legitimate recurring reads, but does NOT account for the 4.2 GB external transfer to 91.219.236.18."
+      ],
+      "missing_information": [
+        "Full packet capture (PCAP) for the 4.2 GB exfiltration stream to 91.219.236.18.",
+        "Confirmation whether multi-factor authentication was bypassed during admin-service RDP session.",
+        "Decrypted payload contents of spear-phishing attachment hash 4a3b2c1d..."
+      ],
+      "uncertainty_notes": [
+        "High confidence in credential theft and exfiltration path based on correlated graph edges.",
+        "Medium confidence on exact threat actor attribution (TOR exit node 185.220.101.42 obscures initial ingress)."
+      ],
+      "priority_rationale": "Classified as CRITICAL due to validated exfiltration of sensitive Customer Database records and domain admin credential compromise.",
+      "recommended_action": "1. Immediately revoke active Kerberos/NTLM tickets and rotate credentials for admin-service and marcus.chen.\n2. Isolate host LAPTOP-MCHEN and server SRV-ADMIN-01 from network segments.\n3. Block external IPs 185.220.101.42 and 91.219.236.18 at corporate perimeter firewalls.\n4. Enforce read-only locks on Customer Database (res-001) and initiate breach response notification protocol.",
+      "attack_path": [
+        {
+          "source": "dev-001",
+          "target": "ip-001",
+          "relationship": "HAS_IP"
+        },
+        {
+          "source": "evt-105",
+          "target": "dev-001",
+          "relationship": "OCCURRED_ON"
+        },
+        {
+          "source": "alert-003",
+          "target": "evt-105",
+          "relationship": "TRIGGERED_BY"
+        },
+        {
+          "source": "inc-001",
+          "target": "alert-003",
+          "relationship": "INCLUDES"
+        },
+        {
+          "source": "user-003",
+          "target": "evt-105",
+          "relationship": "PERFORMED"
+        },
+        {
+          "source": "user-003",
+          "target": "evt-301",
+          "relationship": "PERFORMED"
+        },
+        {
+          "source": "user-003",
+          "target": "evt-110",
+          "relationship": "PERFORMED"
+        },
+        {
+          "source": "user-003",
+          "target": "evt-109",
+          "relationship": "PERFORMED"
+        },
+        {
+          "source": "user-003",
+          "target": "evt-108",
+          "relationship": "PERFORMED"
+        },
+        {
+          "source": "user-003",
+          "target": "evt-107",
+          "relationship": "PERFORMED"
+        },
+        {
+          "source": "user-003",
+          "target": "evt-106",
+          "relationship": "PERFORMED"
+        },
+        {
+          "source": "user-003",
+          "target": "dev-003",
+          "relationship": "USES_DEVICE"
+        }
+      ],
+      "agent_steps": [
+        {
+          "step": 1,
+          "tool": "get_alert_details",
+          "arguments": {
+            "alert_id": "alert-002"
+          },
+          "result_summary": "Retrieved Alert 'Credential dump detected \u2014 LSASS access'",
+          "timestamp": "2026-10-17T13:20:48.918517+00:00"
+        },
+        {
+          "step": 2,
+          "tool": "get_event_details",
+          "arguments": {
+            "event_id": "evt-104"
+          },
+          "result_summary": "Retrieved Event 'Credential harvesting detected'",
+          "timestamp": "2026-10-17T13:20:48.936290+00:00"
+        },
+        {
+          "step": 3,
+          "tool": "find_entity_neighbors",
+          "arguments": {
+            "entity_type": "Event",
+            "entity_id": "evt-104"
+          },
+          "result_summary": "Discovered 3 connected entities",
+          "timestamp": "2026-10-17T13:20:48.956176+00:00"
+        },
+        {
+          "step": 4,
+          "tool": "traverse_attack_path",
+          "arguments": {
+            "entity_type": "Device",
+            "entity_id": "dev-001",
+            "max_depth": 3
+          },
+          "result_summary": "Graph traversal mapped 20 nodes and 22 edges",
+          "timestamp": "2026-10-17T13:20:48.974982+00:00"
+        },
+        {
+          "step": 5,
+          "tool": "get_event_timeline",
+          "arguments": {
+            "entity_type": "User",
+            "entity_id": "user-001"
+          },
+          "result_summary": "Chronological analysis found 5 events",
+          "timestamp": "2026-10-17T13:20:49.057701+00:00"
+        },
+        {
+          "step": 6,
+          "tool": "find_shared_indicators",
+          "arguments": {
+            "entity_type": "Device",
+            "entity_id": "dev-003"
+          },
+          "result_summary": "Correlated 20 shared indicators",
+          "timestamp": "2026-10-17T13:20:49.075772+00:00"
+        }
+      ],
+      "graph_data": {
+        "nodes": [
+          {
+            "id": "alert-002",
+            "title": "Credential dump detected \u2014 LSASS access",
+            "severity": "critical",
+            "status": "open",
+            "source_event_id": "evt-104",
+            "description": "EDR detected potential credential harvesting via LSASS memory access",
+            "timestamp": "2026-10-11T14:50:00Z",
+            "source": "synthetic_demo",
+            "_label": "Alert"
+          },
+          {
+            "id": "evt-104",
+            "title": "Credential harvesting detected",
+            "event_type": "credential_access",
+            "timestamp": "2026-10-11T14:08:00Z",
+            "description": "LSASS memory dump detected on LAPTOP-MCHEN. Credentials for marcus.chen and admin-service potentially compromised",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "user-001",
+            "name": "Marcus Chen",
+            "email": "marcus.chen@acme-corp.com",
+            "department": "Engineering",
+            "role": "senior_engineer",
+            "status": "active",
+            "created_at": "2026-10-04T14:00:00Z",
+            "_label": "User"
+          },
+          {
+            "id": "dev-001",
+            "hostname": "LAPTOP-MCHEN",
+            "device_type": "laptop",
+            "os": "Windows 11",
+            "location": "Engineering Lab",
+            "status": "online",
+            "_label": "Device"
+          },
+          {
+            "id": "ip-001",
+            "address": "10.0.1.45",
+            "type": "internal",
+            "description": "Engineering VLAN",
+            "_label": "IPAddress"
+          },
+          {
+            "id": "evt-105",
+            "title": "Unusual authentication",
+            "event_type": "authentication",
+            "timestamp": "2026-10-11T14:15:00Z",
+            "description": "admin-service account authenticated from 10.0.1.45 (Engineering VLAN) instead of usual 10.0.0.10 (Server VLAN)",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "alert-003",
+            "title": "Unusual admin authentication pattern",
+            "severity": "high",
+            "status": "open",
+            "source_event_id": "evt-105",
+            "description": "Admin account authenticated from unexpected network segment",
+            "timestamp": "2026-10-11T14:50:00Z",
+            "source": "synthetic_demo",
+            "_label": "Alert"
+          },
+          {
+            "id": "inc-001",
+            "title": "Suspected APT \u2014 Credential Theft and Data Exfiltration",
+            "status": "open",
+            "priority": "critical",
+            "description": "Multiple correlated alerts suggesting advanced persistent threat activity including credential theft, lateral movement, and potential data exfiltration",
+            "created_at": "2026-10-11T14:55:00Z",
+            "source": "synthetic_demo",
+            "_label": "Incident"
+          },
+          {
+            "id": "user-003",
+            "name": "admin-service",
+            "email": "admin@acme-corp.com",
+            "department": "IT",
+            "role": "system_admin",
+            "status": "active",
+            "created_at": "2026-10-04T14:00:00Z",
+            "_label": "User"
+          },
+          {
+            "id": "evt-301",
+            "title": "admin-service scheduled task",
+            "event_type": "automation",
+            "timestamp": "2026-10-11T14:34:00Z",
+            "description": "admin-service ran scheduled database maintenance task \u2014 this is a legitimate scheduled operation that could explain some of the database access patterns",
+            "source": "synthetic_demo",
+            "severity": "info",
+            "_label": "Event"
+          },
+          {
+            "id": "evt-110",
+            "title": "Log deletion attempt",
+            "event_type": "log_tampering",
+            "timestamp": "2026-10-11T14:45:00Z",
+            "description": "Attempt to clear Windows Event Logs on SRV-ADMIN-01 using wevtutil.exe",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "evt-109",
+            "title": "Large file transfer",
+            "event_type": "data_exfiltration",
+            "timestamp": "2026-10-11T14:40:00Z",
+            "description": "4.2 GB file transfer to 91.219.236.18 via encrypted channel from SRV-ADMIN-01",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "evt-108",
+            "title": "Database query \u2014 bulk export",
+            "event_type": "data_access",
+            "timestamp": "2026-10-11T14:35:00Z",
+            "description": "Bulk SELECT query on Customer Database from SRV-ADMIN-01. 15,000 records accessed.",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "evt-107",
+            "title": "Privilege escalation attempt",
+            "event_type": "privilege_escalation",
+            "timestamp": "2026-10-11T14:25:00Z",
+            "description": "admin-service attempted to add account to Domain Admins group from unusual source",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "evt-106",
+            "title": "Lateral movement \u2014 RDP",
+            "event_type": "remote_access",
+            "timestamp": "2026-10-11T14:20:00Z",
+            "description": "RDP session from LAPTOP-MCHEN to SRV-ADMIN-01 using admin-service credentials",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "dev-003",
+            "hostname": "SRV-ADMIN-01",
+            "device_type": "server",
+            "os": "Ubuntu 22.04",
+            "location": "Data Center A",
+            "status": "online",
+            "_label": "Device"
+          },
+          {
+            "id": "evt-103",
+            "title": "Outbound C2 connection",
+            "event_type": "network_connection",
+            "timestamp": "2026-10-11T14:05:00Z",
+            "description": "Outbound HTTPS connection to 185.220.101.42:443 established from LAPTOP-MCHEN",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "evt-102",
+            "title": "Malicious attachment opened",
+            "event_type": "file_execution",
+            "timestamp": "2026-10-11T14:03:00Z",
+            "description": "User opened PDF attachment which executed embedded macro. File hash: 4a3b2c1d...",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "evt-101",
+            "title": "Phishing email received",
+            "event_type": "email_received",
+            "timestamp": "2026-10-11T14:00:00Z",
+            "description": "Spear-phishing email with malicious attachment received by marcus.chen@acme-corp.com from external sender spoofing HR department",
+            "source": "synthetic_demo",
+            "severity": "high",
+            "_label": "Event"
+          },
+          {
+            "id": "ip-005",
+            "address": "185.220.101.42",
+            "type": "external",
+            "description": "TOR Exit Node \u2014 known malicious",
+            "_label": "IPAddress"
+          }
+        ],
+        "edges": [
+          {
+            "source": "dev-001",
+            "target": "ip-001",
+            "type": "HAS_IP",
+            "key": "dev-001-HAS_IP-ip-001"
+          },
+          {
+            "source": "evt-105",
+            "target": "dev-001",
+            "type": "OCCURRED_ON",
+            "key": "evt-105-OCCURRED_ON-dev-001"
+          },
+          {
+            "source": "alert-003",
+            "target": "evt-105",
+            "type": "TRIGGERED_BY",
+            "key": "alert-003-TRIGGERED_BY-evt-105"
+          },
+          {
+            "source": "inc-001",
+            "target": "alert-003",
+            "type": "INCLUDES",
+            "key": "inc-001-INCLUDES-alert-003"
+          },
+          {
+            "source": "user-003",
+            "target": "evt-105",
+            "type": "PERFORMED",
+            "key": "user-003-PERFORMED-evt-105"
+          },
+          {
+            "source": "user-003",
+            "target": "evt-301",
+            "type": "PERFORMED",
+            "key": "user-003-PERFORMED-evt-301"
+          },
+          {
+            "source": "user-003",
+            "target": "evt-110",
+            "type": "PERFORMED",
+            "key": "user-003-PERFORMED-evt-110"
+          },
+          {
+            "source": "user-003",
+            "target": "evt-109",
+            "type": "PERFORMED",
+            "key": "user-003-PERFORMED-evt-109"
+          },
+          {
+            "source": "user-003",
+            "target": "evt-108",
+            "type": "PERFORMED",
+            "key": "user-003-PERFORMED-evt-108"
+          },
+          {
+            "source": "user-003",
+            "target": "evt-107",
+            "type": "PERFORMED",
+            "key": "user-003-PERFORMED-evt-107"
+          },
+          {
+            "source": "user-003",
+            "target": "evt-106",
+            "type": "PERFORMED",
+            "key": "user-003-PERFORMED-evt-106"
+          },
+          {
+            "source": "user-003",
+            "target": "dev-003",
+            "type": "USES_DEVICE",
+            "key": "user-003-USES_DEVICE-dev-003"
+          },
+          {
+            "source": "evt-104",
+            "target": "dev-001",
+            "type": "OCCURRED_ON",
+            "key": "evt-104-OCCURRED_ON-dev-001"
+          },
+          {
+            "source": "alert-002",
+            "target": "evt-104",
+            "type": "TRIGGERED_BY",
+            "key": "alert-002-TRIGGERED_BY-evt-104"
+          },
+          {
+            "source": "inc-001",
+            "target": "alert-002",
+            "type": "INCLUDES",
+            "key": "inc-001-INCLUDES-alert-002"
+          },
+          {
+            "source": "user-001",
+            "target": "evt-104",
+            "type": "PERFORMED",
+            "key": "user-001-PERFORMED-evt-104"
+          },
+          {
+            "source": "user-001",
+            "target": "evt-103",
+            "type": "PERFORMED",
+            "key": "user-001-PERFORMED-evt-103"
+          },
+          {
+            "source": "user-001",
+            "target": "evt-102",
+            "type": "PERFORMED",
+            "key": "user-001-PERFORMED-evt-102"
+          },
+          {
+            "source": "user-001",
+            "target": "evt-101",
+            "type": "PERFORMED",
+            "key": "user-001-PERFORMED-evt-101"
+          },
+          {
+            "source": "user-001",
+            "target": "dev-001",
+            "type": "USES_DEVICE",
+            "key": "user-001-USES_DEVICE-dev-001"
+          },
+          {
+            "source": "evt-103",
+            "target": "dev-001",
+            "type": "OCCURRED_ON",
+            "key": "evt-103-OCCURRED_ON-dev-001"
+          },
+          {
+            "source": "evt-103",
+            "target": "ip-005",
+            "type": "CONNECTED_TO",
+            "key": "evt-103-CONNECTED_TO-ip-005"
+          }
+        ]
+      },
+      "full_report_text": "Investigation of alert-002 completed with 7 verified findings and 6 graph evidence records.",
+      "created_at": "2026-10-17T13:20:49.100270+00:00",
+      "completed_at": "2026-10-17T13:20:49.100270+00:00"
+    },
+    "outcome": "containment",
+    "outcome_reason": "Host LAPTOP-MCHEN and SRV-ADMIN-01 isolated due to confirmed credential dumping and multi-hop exfiltration path.",
+    "recommended_action_recorded": "Revoke admin-service credentials and initiate forensics.",
+    "outcome_recorded_at": "2026-10-17T13:20:49.142682+00:00"
   }
 }
