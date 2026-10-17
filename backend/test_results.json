@@ -1,0 +1,127 @@
+{
+  "passed": [
+    "Health Check /api/health",
+    "List Alerts /api/alerts",
+    "Graph Stats /api/graph/stats",
+    "Get Entity /api/graph/entity/User/user-001",
+    "Get Neighbors /api/graph/neighbors/Device/dev-001",
+    "Multi-Hop Traversal /api/graph/traverse",
+    "Event Timeline /api/graph/timeline",
+    "Shared Indicators /api/graph/shared-indicators",
+    "Full Topology /api/graph/all",
+    "Start Investigation POST /api/investigations",
+    "Investigation Completion & Report Retrieval",
+    "Agent Tool Decision Chain",
+    "Findings & Contradictions Honesty",
+    "Record Outcome POST /outcome",
+    "Reports & Multi-Format Exports",
+    "Invalid Entity Type -> 400",
+    "Non-Existent Entity -> 404",
+    "Start Investigation Non-Existent Alert -> 404",
+    "Duplicate Running Investigation -> 409 Conflict",
+    "Invalid Outcome Enum -> 400",
+    "Traversal Depth Boundary (>4) -> 422",
+    "Database Disconnection Handling -> 503 & Degraded Health",
+    "Health Endpoint TLS & Security Labeling",
+    "Graph Seeding Idempotency Audit"
+  ],
+  "failed": [],
+  "details": {
+    "Health Check /api/health": {
+      "status": "PASSED",
+      "detail": "Status=healthy, Mode=falkordb_cloud"
+    },
+    "List Alerts /api/alerts": {
+      "status": "PASSED",
+      "detail": "Retrieved 6 alerts: ['alert-004', 'alert-005', 'alert-001', 'alert-003', 'alert-002', 'alert-006']"
+    },
+    "Graph Stats /api/graph/stats": {
+      "status": "PASSED",
+      "detail": "Counts: {'User': 5, 'Device': 6, 'IPAddress': 8, 'Event': 17, 'Resource': 6, 'Alert': 6, 'Incident': 1, 'total_relationships': 57}"
+    },
+    "Get Entity /api/graph/entity/User/user-001": {
+      "status": "PASSED",
+      "detail": "Found user 'Marcus Chen' (senior_engineer)"
+    },
+    "Get Neighbors /api/graph/neighbors/Device/dev-001": {
+      "status": "PASSED",
+      "detail": "7 neighbors, 7 relationships"
+    },
+    "Multi-Hop Traversal /api/graph/traverse": {
+      "status": "PASSED",
+      "detail": "Mapped 20 nodes, 22 edges at depth 3"
+    },
+    "Event Timeline /api/graph/timeline": {
+      "status": "PASSED",
+      "detail": "Retrieved 5 chronologically sorted events"
+    },
+    "Shared Indicators /api/graph/shared-indicators": {
+      "status": "PASSED",
+      "detail": "Retrieved 20 correlations"
+    },
+    "Full Topology /api/graph/all": {
+      "status": "PASSED",
+      "detail": "15 nodes, 18 edges"
+    },
+    "Start Investigation POST /api/investigations": {
+      "status": "PASSED",
+      "detail": "Dispatched inv-alert-002-1792072291 for alert-002"
+    },
+    "Investigation Completion & Report Retrieval": {
+      "status": "PASSED",
+      "detail": "Status=completed, 6 autonomous steps"
+    },
+    "Agent Tool Decision Chain": {
+      "status": "PASSED",
+      "detail": "Verified sequence: ['get_alert_details', 'get_event_details', 'find_entity_neighbors', 'traverse_attack_path', 'get_event_timeline', 'find_shared_indicators']"
+    },
+    "Findings & Contradictions Honesty": {
+      "status": "PASSED",
+      "detail": "7 findings, 1 contradictions, 3 information gaps"
+    },
+    "Record Outcome POST /outcome": {
+      "status": "PASSED",
+      "detail": "Outcome successfully committed and persisted as 'containment'"
+    },
+    "Reports & Multi-Format Exports": {
+      "status": "PASSED",
+      "detail": "Successfully exported report inv-demo-001 as JSON, Markdown, and Text"
+    },
+    "Invalid Entity Type -> 400": {
+      "status": "PASSED",
+      "detail": "Returned 400 with message: Invalid entity type. Must be one of: {'Device', 'Resource', 'Alert', 'User', 'Event', 'Incident', 'IPAddress'}"
+    },
+    "Non-Existent Entity -> 404": {
+      "status": "PASSED",
+      "detail": "Returned 404: User user-non-existent-999 not found"
+    },
+    "Start Investigation Non-Existent Alert -> 404": {
+      "status": "PASSED",
+      "detail": "Returned 404: Alert alert-nonexistent-999 not found in graph"
+    },
+    "Duplicate Running Investigation -> 409 Conflict": {
+      "status": "PASSED",
+      "detail": "Returned 409: Investigation already running for alert alert-003"
+    },
+    "Invalid Outcome Enum -> 400": {
+      "status": "PASSED",
+      "detail": "Returned 400: Invalid outcome. Must be one of: {'containment', 'accepted', 'false_positive', 'further_investigation'}"
+    },
+    "Traversal Depth Boundary (>4) -> 422": {
+      "status": "PASSED",
+      "detail": "Query parameter validation enforced"
+    },
+    "Database Disconnection Handling -> 503 & Degraded Health": {
+      "status": "PASSED",
+      "detail": "All graph endpoints gracefully return 503 when disconnected"
+    },
+    "Health Endpoint TLS & Security Labeling": {
+      "status": "PASSED",
+      "detail": "Environment=development, Classification=DEVELOPMENT / UNENCRYPTED, SecurityLabel=DEVELOPMENT / UNENCRYPTED, Encryption=none (plain_tcp)"
+    },
+    "Graph Seeding Idempotency Audit": {
+      "status": "PASSED",
+      "detail": "Repeated run preserved exact topology: 49 nodes, 57 relationships (0 duplicates)"
+    }
+  }
+}

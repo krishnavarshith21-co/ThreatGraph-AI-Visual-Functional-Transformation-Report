@@ -1,0 +1,9 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+falkordb==1.0.9
+redis==5.2.1
+python-dotenv==1.0.1
+pydantic==2.10.4
+google-genai==1.14.0
+supabase==2.11.0
+httpx==0.28.1

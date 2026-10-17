@@ -1,0 +1,620 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@source "../index.html";
+@source "./**/*.{js,ts,jsx,tsx}";
+
+/* ── Cinematic Intelligence Design System ──────────────────── */
+/* Art Direction: Intelligence Noir — restrained, confident, spatial */
+
+@theme {
+  /* ── Canonical Palette ─────────────────────────────────── */
+  --color-midnight: #070C13;
+  --color-graphite: #101923;
+  --color-titanium: #1A2732;
+  --color-steel: #344451;
+  --color-cool-silver: #D6E0E5;
+  --color-warm-white: #F3F4F0;
+  --color-ice-blue: #83CFE0;
+  --color-copper: #C68A69;
+  --color-champagne: #D8C99A;
+  --color-critical-red: #DC666B;
+
+  /* ── Semantic Mappings ─────────────────────────────────── */
+  --color-bg-primary: #070C13;
+  --color-bg-secondary: #101923;
+  --color-surface-elevated: #1A2732;
+  --color-surface-structural: #1E2D38;
+  --color-text-primary: #F3F4F0;
+  --color-text-secondary: #D6E0E5;
+  --color-text-muted: #6B7A85;
+  --color-border-fine: #1E2D38;
+  --color-border-subtle: #162029;
+
+  /* ── Backward-compatible aliases ───────────────────────── */
+  --color-obsidian: #070C13;
+  --color-deep-graphite: #101923;
+  --color-deep-ink: #101923;
+  --color-elevated-steel: #1A2732;
+  --color-steel-surface: #1A2732;
+  --color-cool-ivory: #F3F4F0;
+  --color-cool-white: #F3F4F0;
+  --color-secondary-text: #D6E0E5;
+  --color-muted-metadata: #6B7A85;
+  --color-gunmetal: #1E2D38;
+  --color-graphite-elevated: #1A2732;
+  --color-graphite-hover: #1E2D38;
+
+  --color-ice-cyan: #83CFE0;
+  --color-ice-signal: #83CFE0;
+  --color-oxidized-copper: #C68A69;
+  --color-pale-citrine: #D8C99A;
+  --color-critical-threat: #DC666B;
+  --color-danger: #DC666B;
+  --color-threat-red: #DC666B;
+
+  --color-border: #1E2D38;
+  --color-lime: #D8C99A;
+  --color-cyan: #83CFE0;
+  --color-amber: #C68A69;
+  --color-alert-amber: #C68A69;
+
+  /* ── Typography ────────────────────────────────────────── */
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+/* ── Global Layout & Geometry ────────────────────────────────── */
+
+@layer base {
+  *, ::after, ::before {
+    box-sizing: border-box;
+  }
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--color-midnight);
+  color: var(--color-warm-white);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-ice-blue);
+  color: var(--color-midnight);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--color-warm-white);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+}
+
+/* ── Scrollbars ──────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-midnight);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-steel);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ice-blue);
+}
+
+/* ── Viewport Content Boundaries ─────────────────────────────── */
+
+.page-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .page-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .page-container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+/* ── Cinematic Surfaces ──────────────────────────────────────── */
+
+.noir-surface {
+  background-color: var(--color-graphite);
+  border: 1px solid var(--color-border-fine);
+}
+
+.noir-surface-elevated {
+  background-color: var(--color-titanium);
+  border: 1px solid var(--color-border-fine);
+}
+
+.noir-surface-structural {
+  background-color: var(--color-surface-structural);
+  border: 1px solid var(--color-border-fine);
+}
+
+.card-surface {
+  background-color: var(--color-graphite);
+  border: 1px solid var(--color-border-fine);
+  border-radius: 3px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.card-surface:hover {
+  border-color: var(--color-steel);
+}
+
+.surface-elevated {
+  background-color: var(--color-titanium);
+  border: 1px solid var(--color-border-fine);
+  border-radius: 3px;
+}
+
+.surface-secondary {
+  background-color: var(--color-surface-structural);
+  border: 1px solid var(--color-border-fine);
+  border-radius: 3px;
+}
+
+/* ── Cinematic Ambient Glows ─────────────────────────────────── */
+
+/* cinematic-glow-hero is defined below with enhanced version */
+
+.cinematic-glow-threat {
+  background: radial-gradient(circle at 50% 50%, rgba(220, 102, 107, 0.05) 0%, transparent 65%);
+}
+
+.cinematic-glass {
+  background-color: rgba(16, 25, 35, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(30, 45, 56, 0.7);
+}
+
+/* ── Reticle Corners ─────────────────────────────────────────── */
+
+.reticle-corner {
+  position: relative;
+}
+
+.reticle-corner::before,
+.reticle-corner::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: var(--color-ice-blue);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.reticle-corner::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid var(--color-ice-blue);
+  border-left: 1px solid var(--color-ice-blue);
+}
+
+.reticle-corner::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1px solid var(--color-ice-blue);
+  border-right: 1px solid var(--color-ice-blue);
+}
+
+/* ── Action Buttons ──────────────────────────────────────────── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-ice-blue);
+  color: var(--color-midnight);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--color-ice-blue);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background-color: #9DDAEB;
+  border-color: #9DDAEB;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(131, 207, 224, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: var(--color-cool-silver);
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--color-steel);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-ice-blue);
+  color: var(--color-warm-white);
+  background-color: rgba(131, 207, 224, 0.06);
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: rgba(220, 102, 107, 0.1);
+  color: var(--color-critical-red);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  border: 1px solid rgba(220, 102, 107, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-danger:hover {
+  background-color: rgba(220, 102, 107, 0.2);
+  border-color: var(--color-critical-red);
+}
+
+/* ── Badges ──────────────────────────────────────────────────── */
+
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.1875rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 3px;
+}
+
+.badge-critical {
+  background-color: rgba(220, 102, 107, 0.1);
+  color: var(--color-critical-red);
+  border: 1px solid rgba(220, 102, 107, 0.25);
+}
+
+.badge-high {
+  background-color: rgba(198, 138, 105, 0.1);
+  color: var(--color-copper);
+  border: 1px solid rgba(198, 138, 105, 0.25);
+}
+
+.badge-medium {
+  background-color: rgba(216, 201, 154, 0.1);
+  color: var(--color-champagne);
+  border: 1px solid rgba(216, 201, 154, 0.25);
+}
+
+.badge-low {
+  background-color: rgba(131, 207, 224, 0.1);
+  color: var(--color-ice-blue);
+  border: 1px solid rgba(131, 207, 224, 0.25);
+}
+
+/* ── Form Inputs ─────────────────────────────────────────────── */
+
+.input-cyber {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-midnight);
+  border: 1px solid var(--color-border-fine);
+  border-radius: 3px;
+  color: var(--color-warm-white);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input-cyber:focus {
+  border-color: var(--color-ice-blue);
+}
+
+.input-cyber::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ── Telemetry Indicators ────────────────────────────────────── */
+
+.telemetry-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.telemetry-pulse-online,
+.telemetry-pulse-cyan {
+  background-color: var(--color-ice-blue);
+}
+
+.telemetry-pulse-threat,
+.telemetry-pulse-critical {
+  background-color: var(--color-critical-red);
+}
+
+.telemetry-pulse-citrine,
+.telemetry-pulse-lime {
+  background-color: var(--color-champagne);
+}
+
+.telemetry-pulse-copper,
+.telemetry-pulse-amber {
+  background-color: var(--color-copper);
+}
+
+/* ── Scroll-Driven Section Reveals ───────────────────────────── */
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-section {
+  opacity: 0;
+  animation: fadeSlideUp 0.7s ease-out forwards;
+}
+
+.reveal-delay-1 { animation-delay: 0.1s; }
+.reveal-delay-2 { animation-delay: 0.2s; }
+.reveal-delay-3 { animation-delay: 0.3s; }
+.reveal-delay-4 { animation-delay: 0.4s; }
+
+/* ── Subtle Motion ───────────────────────────────────────────── */
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float {
+  animation: float-gentle 5s ease-in-out infinite;
+}
+
+/* ── Dividers ────────────────────────────────────────────────── */
+
+.noir-divider {
+  border-color: var(--color-border-fine);
+  opacity: 0.6;
+}
+
+/* ── Enhanced Hero Glow for Full-Width Layout ────────────────── */
+
+.cinematic-glow-hero {
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 35%, rgba(131, 207, 224, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 70% at 25% 75%, rgba(198, 138, 105, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 40% at 80% 60%, rgba(220, 102, 107, 0.03) 0%, transparent 50%);
+}
+
+/* ── Toggle Switch ───────────────────────────────────────────── */
+
+.toggle-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-switch-knob {
+  position: absolute;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s ease;
+}
+
+/* ── Timeline Stage Cards ────────────────────────────────────── */
+
+@keyframes stage-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(131, 207, 224, 0.1); }
+  50% { box-shadow: 0 0 12px 2px rgba(131, 207, 224, 0.08); }
+}
+
+.stage-active {
+  animation: stage-pulse 2s ease-in-out infinite;
+}
+
+/* ── Floating Label Glass Effect ─────────────────────────────── */
+
+@keyframes label-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.floating-label {
+  animation: label-fade-in 0.6s ease-out forwards;
+}
+
+/* ── Bottom Panel Slide Up ───────────────────────────────────── */
+
+@keyframes panel-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.panel-animate {
+  animation: panel-slide-up 0.5s ease-out forwards;
+}
+
+/* ── Conduit Energy Flow & Beacon Radar ──────────────────────── */
+
+@keyframes conduit-dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-conduit-flow {
+  stroke-dasharray: 6 12;
+  animation: conduit-dash 1.2s linear infinite;
+}
+
+.animate-conduit-flow-reverse {
+  stroke-dasharray: 6 12;
+  animation: conduit-dash 1.2s linear infinite reverse;
+}
+
+@keyframes radar-pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.animate-radar-ring {
+  animation: radar-pulse-ring 2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+@keyframes neon-glow-cyan {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), inset 0 0 10px rgba(56, 189, 248, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.7), inset 0 0 15px rgba(56, 189, 248, 0.4);
+  }
+}
+
+.neon-glow-cyan {
+  animation: neon-glow-cyan 2.5s ease-in-out infinite;
+}
+
+@keyframes neon-glow-red {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4), inset 0 0 10px rgba(239, 68, 68, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.7), inset 0 0 15px rgba(239, 68, 68, 0.4);
+  }
+}
+
+.neon-glow-red {
+  animation: neon-glow-red 2.5s ease-in-out infinite;
+}
+
+/* ── Reduced Motion ──────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal-section {
+    opacity: 1;
+    transform: none;
+  }
+}

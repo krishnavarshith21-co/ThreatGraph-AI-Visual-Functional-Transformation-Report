@@ -1,0 +1,77 @@
+{
+  "passed": [
+    "Landing Page Desktop 1440x900",
+    "Protected Route Redirection",
+    "Sign In Form Elements",
+    "Authenticated Dashboard Load",
+    "Session Restoration",
+    "Investigations Pipeline Page",
+    "Investigation Dossier Detail",
+    "Graph Explorer & Cypher Console",
+    "Alert Triage Queue",
+    "Investigation Reports Page",
+    "Settings & Telemetry Display",
+    "Sign Out Execution & Redirection",
+    "Tablet Viewport 768x1024",
+    "Mobile Viewport 390x844"
+  ],
+  "failed": [],
+  "details": {
+    "Landing Page Desktop 1440x900": {
+      "status": "PASSED",
+      "detail": "Headline='See the connections.\nUnderstand the threat.', Interactive Visual=Present, HorizontalOverflow=False"
+    },
+    "Protected Route Redirection": {
+      "status": "PASSED",
+      "detail": "Navigating to /app redirected to /signin ('Analyst Portal Access')"
+    },
+    "Sign In Form Elements": {
+      "status": "PASSED",
+      "detail": "Email input, Password input, and Guest Analyst CTA verified"
+    },
+    "Authenticated Dashboard Load": {
+      "status": "PASSED",
+      "detail": "Path=/app, Heading='Cyber Threat Intelligence Console', Live Telemetry=Active"
+    },
+    "Session Restoration": {
+      "status": "PASSED",
+      "detail": "Guest analyst session successfully restored from localStorage upon page reload"
+    },
+    "Investigations Pipeline Page": {
+      "status": "PASSED",
+      "detail": "Heading='Security Investigations', Start CTA=Present, DossiersListed=True"
+    },
+    "Investigation Dossier Detail": {
+      "status": "PASSED",
+      "detail": "FindingsTab=True, ReasoningTab=True, AttackTrajectory=False, GraphCanvas=True"
+    },
+    "Graph Explorer & Cypher Console": {
+      "status": "PASSED",
+      "detail": "Cypher query bar, hop depth slider, and topology presets verified"
+    },
+    "Alert Triage Queue": {
+      "status": "PASSED",
+      "detail": "Heading='Security Alert Queue', Direct Triage Actions=True"
+    },
+    "Investigation Reports Page": {
+      "status": "PASSED",
+      "detail": "Heading='Investigation Reports', Export Buttons (Markdown/JSON)=Active"
+    },
+    "Settings & Telemetry Display": {
+      "status": "PASSED",
+      "detail": "Connected Graph engine, Gemini LLM agent, and Sign Out CTA verified"
+    },
+    "Sign Out Execution & Redirection": {
+      "status": "PASSED",
+      "detail": "Signed out, session cleared, redirected to /signin"
+    },
+    "Tablet Viewport 768x1024": {
+      "status": "PASSED",
+      "detail": "Zero horizontal scroll, headline visible, overflow=False"
+    },
+    "Mobile Viewport 390x844": {
+      "status": "PASSED",
+      "detail": "Zero horizontal scroll, responsive reflow verified, overflow=False"
+    }
+  }
+}

@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ── Cyber Intelligence Noir Design System ──────────────────── */
+
+@theme {
+  /* ── Cinematic Cyber Intelligence Material Palette ─────────── */
+  --color-obsidian: #070A10;
+  --color-midnight: #0B111A;
+  --color-graphite: #111B26;
+  --color-titanium: #1A2732;
+  --color-steel: #344451;
+  --color-primary-text: #F3F4F0;
+  --color-secondary-text: #B4C0C8;
+  --color-muted-meta: #7D8B96;
+  --color-ice-cyan: #83D5E4;
+  --color-electric-blue: #347BC5;
+  --color-champagne: #D9C18A;
+  --color-copper: #C68A69;
+  --color-critical-red: #DC666B;
+
+  /* ── Semantic Mappings ─────────────────────────────────── */
+  --color-bg-primary: #070A10;
+  --color-bg-secondary: #0B111A;
+  --color-surface-elevated: #111B26;
+  --color-surface-structural: #1A2732;
+  --color-text-primary: #F3F4F0;
+  --color-text-secondary: #B4C0C8;
+  --color-text-muted: #7D8B96;
+  --color-border-fine: #162332;
+  --color-border-subtle: #101923;
+
+  /* ── Backward-compatible aliases ───────────────────────── */
+  --color-deep-graphite: #111B26;
+  --color-deep-ink: #0B111A;
+  --color-elevated-steel: #1A2732;
+  --color-steel-surface: #1A2732;
+  --color-cool-ivory: #F3F4F0;
+  --color-cool-white: #F3F4F0;
+  --color-cool-silver: #B4C0C8;
+  --color-warm-white: #F3F4F0;
+  --color-muted-metadata: #7D8B96;
+  --color-ice-blue: #83D5E4;
+  --color-ice-signal: #83D5E4;
+  --color-oxidized-copper: #C68A69;
+  --color-pale-citrine: #D9C18A;
+  --color-critical-threat: #DC666B;
+  --color-danger: #DC666B;
+  --color-threat-red: #DC666B;
+
+  --color-border: #162332;
+  --color-lime: #D9C18A;
+  --color-cyan: #83D5E4;
+  --color-amber: #C68A69;
+  --color-alert-amber: #C68A69;
+
+  /* ── Typography ────────────────────────────────────────── */
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+/* ── Global Layout & Geometry ────────────────────────────────── */
+@layer base {
+  *, ::after, ::before {
+    box-sizing: border-box;
+    border-color: #162332;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 76px;
+  }
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: #070A10;
+  color: #F3F4F0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Accessible Focus States ─────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #38BDF8;
+  outline-offset: 2px;
+}
+
+/* ── Standard Page Container ─────────────────────────────────── */
+.page-container {
+  width: 100%;
+  max-width: 1560px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .page-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ── Enterprise Cyber Action Buttons ─────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5625rem 1.25rem;
+  background: linear-gradient(135deg, #38BDF8 0%, #1678D2 100%);
+  color: #050811;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  line-height: 1.25;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  cursor: pointer;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 16px rgba(56, 189, 248, 0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7DD3FC 0%, #2563EB 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 22px rgba(56, 189, 248, 0.38);
+  transform: translateY(-0.5px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5625rem 1.25rem;
+  background: #0B131E;
+  color: #D6E0E5;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.25;
+  border-radius: 0.375rem;
+  border: 1px solid #1E2D38;
+  cursor: pointer;
+  transition: all 180ms ease;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  border-color: rgba(56, 189, 248, 0.45);
+  background: #111E2E;
+  color: #FFFFFF;
+  transform: translateY(-0.5px);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  background: transparent;
+  color: #8C9DAA;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.btn-ghost:hover {
+  background: #0F1A28;
+  color: #F3F4F0;
+  border-color: #1E2D38;
+}
+
+/* ── Surface Treatments ──────────────────────────────────────── */
+.surface-panel {
+  background: #0A121D;
+  border: 1px solid #1A2736;
+}
+
+.surface-card {
+  background: #080E17;
+  border: 1px solid #182534;
+}
+
+.surface-elevated {
+  background: linear-gradient(180deg, #0E1A29 0%, #080F19 100%);
+  border: 1px solid #1E2E40;
+}
+
+/* ── Badge Tags ──────────────────────────────────────────────── */
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.badge-critical {
+  background: rgba(220, 102, 107, 0.12);
+  border: 1px solid rgba(220, 102, 107, 0.35);
+  color: #DC666B;
+}
+
+.badge-high {
+  background: rgba(198, 138, 105, 0.12);
+  border: 1px solid rgba(198, 138, 105, 0.35);
+  color: #C68A69;
+}
+
+.badge-medium {
+  background: rgba(217, 193, 138, 0.12);
+  border: 1px solid rgba(217, 193, 138, 0.35);
+  color: #D9C18A;
+}
+
+.badge-low {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38BDF8;
+}
+
+/* ── Telemetry Pulse Indicators ──────────────────────────────── */
+.telemetry-pulse {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.telemetry-pulse-cyan {
+  background-color: #38BDF8;
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
+}
+
+.telemetry-pulse-copper {
+  background-color: #C68A69;
+  box-shadow: 0 0 6px rgba(198, 138, 105, 0.6);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.88); }
+}
+
+/* ── Custom Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050811;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1A2837;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2D3E50;
+}
+
+/* ── Selection ───────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(56, 189, 248, 0.28);
+  color: #FFFFFF;
+}
