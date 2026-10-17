@@ -5,6 +5,7 @@ so the platform runs seamlessly even when FalkorDB is not locally active.
 """
 
 import os
+import time
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
@@ -218,6 +219,15 @@ class GraphService:
                 "security_label": self._security_label,
                 "tls": tls_info,
             }
+
+        if self._is_fallback:
+            now = time.time()
+            if getattr(self, "_last_reconnect_attempt", 0) + 10 < now:
+                self._last_reconnect_attempt = now
+                try:
+                    self.connect()
+                except Exception:
+                    pass
 
         if self._is_fallback:
             return {
